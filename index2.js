@@ -75,14 +75,15 @@ const Controler = ((view, model) => {
         }
         
     }
-    // const setUpEvent = () => {
-    //     view.domElements.keys.addEventListener('change', event => {
-    //         view.domElements.values.value = event.target.value;
-    //     });
-    //     view.domElements.values.addEventListener('change', event => {
-    //         view.domElements.keys.value = event.target.value;
-    //     });
-    // }
+    const setUpEvent = () => {
+        view.domElements.keys.addEventListener('change', event => {
+            
+            console.log(event);
+        });
+        view.domElements.values.addEventListener('change', event => {
+            console.log(event)
+        });
+    }
 
     const init = () => {
         createKeyList();
