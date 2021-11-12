@@ -28,6 +28,7 @@ const Model = (() => {
         {region: 'CA', model: 'B', sales: 100},
         {region: 'CA', model: 'C', sales: 230},
         {region: 'CA', model: 'D', sales: 400},
+        {region: 'CN', model: 'A', sales: 150},
     ];
 
     // Get all the regions
@@ -99,26 +100,11 @@ const Controler = ((view, model) => {
         
         // Combine table headers and table body
         let tableData = `
-                        <tr>
-                            ${headers}
-                        </tr>  
+                        <tr>${headers}</tr>  
                         ${temp}
                         `
         view.render(view.domElements.table, tableData);
     }
-
-    // const generateData = () => {
-    //     for (let ele of model.data) {
-    //         let row = view.domElements.table.insertRow();
-    //         //console.log(model.data[ele]);
-    //         //if (model.data[ele])
-    //         for (key in ele) {
-    //             let cell = row.insertCell();
-    //             let content = document.createTextNode(ele[key]);
-    //             cell.appendChild(content);
-    //         }
-    //     }  
-    // }
 
     const setUpEvent = () => {
         view.domElements.regionFilter.addEventListener('change', event => {

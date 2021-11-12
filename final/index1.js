@@ -26,7 +26,15 @@ const Model = (() => {
         {region: 'CA', model: 'B', sales: 100},
         {region: 'CA', model: 'C', sales: 230},
         {region: 'CA', model: 'D', sales: 400},
+        {region: 'US', model: 'A', sales: 150},
     ];
+
+    const regions = [];
+    for(let ele of data) {
+        if (regions.indexOf(ele["region"]) === -1) {
+            regions.push(ele["region"]);
+        }
+    }
 
     // Get sum based on region
     const getSum = (region) => {
@@ -41,7 +49,8 @@ const Model = (() => {
 
     return {
         data,
-        getSum
+        getSum,
+        regions
     }
 })();
 
@@ -49,7 +58,6 @@ const Controler = ((view, model) => {
     const generateData = () => {
         let headers = "";
         let temp = "";
-        let region = "";
 
         // Generate table headers
         Object.keys(model.data[0]).forEach(ele => {
@@ -57,37 +65,28 @@ const Controler = ((view, model) => {
         })
 
         // Generate table body
-        for (let i = 0; i < model.data.length; i++) {
-            if (model.data[i].region !== region) {
-                temp += `
-                        <tr>
-                            <td>${model.data[i].region}</td>
-                            <td>sum</td>
-                            <td>${model.getSum(model.data[i].region)}</td>
-                        </tr>
-                        <tr>
-                            <td>${model.data[i].region}</td>
-                            <td>${model.data[i].model}</td>
-                            <td>${model.data[i].sales}</td>
-                        </tr>
-                        `
-                region = model.data[i].region;
-            } else {
-                temp += `
+        for (let ele of model.regions) {
+            temp += `
+                    <tr>
+                        <td>${ele}</td>
+                        <td>sum</td>
+                        <td>${model.getSum(ele)}</td>
+                    </tr>`
+            for (let i = 0; i < model.data.length; i++) {
+                if (model.data[i].region === ele) {
+                    temp += `
                         <tr>
                             <td>${model.data[i].region}</td>
                             <td>${model.data[i].model}</td>
                             <td>${model.data[i].sales}</td>
-                        </tr>
-                        `
+                        </tr>`
+                } 
             }
         }
 
         // Combine table header and table body
         let tableData = `
-                        <tr>
-                            ${headers}
-                        </tr>  
+                        <tr>${headers}</tr>  
                         ${temp}
                         `
         view.render(view.domElements.table, tableData);
